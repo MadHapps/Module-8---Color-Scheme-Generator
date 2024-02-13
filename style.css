@@ -1,10 +1,10 @@
 :root {
-  font-family: 
-    Inter, 
-    system-ui, 
-    Avenir, 
-    Helvetica, 
-    Arial, 
+  font-family:
+    Inter,
+    system-ui,
+    Avenir,
+    Helvetica,
+    Arial,
     sans-serif;
 }
 
@@ -22,7 +22,7 @@ body {
 
 .app-wrapper {
   display: grid;
-  grid-template-areas: 
+  grid-template-areas:
     "header header header header header"
     "color1 color2 color3 color4 color5";
   grid-template-columns: repeat(auto, 1fr);
@@ -33,6 +33,7 @@ body {
   width: 100%;
   min-height: 150px;
   height: 100vh;
+  height: calc(var(--vh, 1vh) * 100);
   margin-inline: auto;
   padding: 0 6.3px 6.3px;
   overflow: hidden;
@@ -61,17 +62,36 @@ header {
   padding: 4px;
 }
 
-#color1 { grid-area: color1; background-color: #8C2703 }
-#color2 { grid-area: color2; background-color: #BF4904 }
-#color3 { grid-area: color3; background-color: #D96704 }
-#color4 { grid-area: color4; background-color: #43D9CA }
-#color5 { grid-area: color5; background-color: #0D0D0D }
+#color1 {
+  grid-area: color1;
+  background-color: #8C2703
+}
+
+#color2 {
+  grid-area: color2;
+  background-color: #BF4904
+}
+
+#color3 {
+  grid-area: color3;
+  background-color: #D96704
+}
+
+#color4 {
+  grid-area: color4;
+  background-color: #43D9CA
+}
+
+#color5 {
+  grid-area: color5;
+  background-color: #0D0D0D
+}
 
 .hex-display {
   background-color: whitesmoke;
   width: 100%;
   text-align: center;
-  padding: .75em;
+  padding: clamp(.15em, 2vh, .75em);
   border-radius: 4.6px;
 }
 
@@ -80,32 +100,32 @@ section {
 }
 
 section:first-of-type,
-section:first-of-type > .hex-display {
+section:first-of-type>.hex-display {
   border-radius: 4.6px 4.6px 4.6px 15px;
 }
 
 section:last-of-type,
-section:last-of-type > .hex-display {
+section:last-of-type>.hex-display {
   border-radius: 4.6px 4.6px 15px 4.6px;
 }
 
 /* MEDIA QUERIES */
 
 @media (max-width: 500px),
-        (min-height: 550px) and (max-width: 1000px) {
+(min-height: 550px) and (max-width: 1000px) {
   .app-wrapper {
-    grid-template-areas: 
-    "header"
-    "color1"
-    "color2"
-    "color3"
-    "color4"
-    "color5";
+    grid-template-areas:
+      "header"
+      "color1"
+      "color2"
+      "color3"
+      "color4"
+      "color5";
     grid-template-columns: minmax(250px, 100%);
     grid-template-rows: 3rem 1fr 1fr 1fr 1fr 1fr;
   }
 
-  .app-wrapper > section {
+  .app-wrapper>section {
     border-radius: 4.6px;
   }
 
