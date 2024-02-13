@@ -1,0 +1,117 @@
+:root {
+  font-family: 
+    Inter, 
+    system-ui, 
+    Avenir, 
+    Helvetica, 
+    Arial, 
+    sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  width: 100%;
+  min-height: 100vh;
+  background-color: gray;
+}
+
+.app-wrapper {
+  display: grid;
+  grid-template-areas: 
+    "header header header header header"
+    "color1 color2 color3 color4 color5";
+  grid-template-columns: repeat(auto, 1fr);
+  grid-template-rows: 3.5rem 1fr;
+  background-color: whitesmoke;
+  gap: 2px;
+  min-width: 150px;
+  width: 100%;
+  min-height: 150px;
+  height: 100vh;
+  margin-inline: auto;
+  padding: 0 6.3px 6.3px;
+  overflow: hidden;
+  transition: 300ms;
+}
+
+header {
+  grid-area: header;
+  background-color: whitesmoke;
+}
+
+.color-form-wrapper {
+  display: flex;
+  gap: .5rem;
+  align-items: center;
+  justify-content: center;
+  height: 100%
+}
+
+.color {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: end;
+  background-color: coral;
+  padding: 4px;
+}
+
+#color1 { grid-area: color1; background-color: #8C2703 }
+#color2 { grid-area: color2; background-color: #BF4904 }
+#color3 { grid-area: color3; background-color: #D96704 }
+#color4 { grid-area: color4; background-color: #43D9CA }
+#color5 { grid-area: color5; background-color: #0D0D0D }
+
+.hex-display {
+  background-color: whitesmoke;
+  width: 100%;
+  text-align: center;
+  padding: .75em;
+  border-radius: 4.6px;
+}
+
+section {
+  border-radius: 4.6px;
+}
+
+section:first-of-type,
+section:first-of-type > .hex-display {
+  border-radius: 4.6px 4.6px 4.6px 15px;
+}
+
+section:last-of-type,
+section:last-of-type > .hex-display {
+  border-radius: 4.6px 4.6px 15px 4.6px;
+}
+
+/* MEDIA QUERIES */
+
+@media (max-width: 500px),
+        (min-height: 550px) and (max-width: 1000px) {
+  .app-wrapper {
+    grid-template-areas: 
+    "header"
+    "color1"
+    "color2"
+    "color3"
+    "color4"
+    "color5";
+    grid-template-columns: minmax(250px, 100%);
+    grid-template-rows: 3rem 1fr 1fr 1fr 1fr 1fr;
+  }
+
+  .app-wrapper > section {
+    border-radius: 4.6px;
+  }
+
+  .hex-display {
+    width: fit-content;
+    align-self: end;
+    border-radius: 4.6px !important;
+  }
+}
