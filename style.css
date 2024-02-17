@@ -57,34 +57,15 @@ header {
   flex-direction: column;
   align-items: center;
   justify-content: end;
-  background-color: coral;
+  background-color: lightgray;
   padding: 4px;
 }
 
-#color1 {
-  grid-area: color1;
-  background-color: #8C2703
-}
-
-#color2 {
-  grid-area: color2;
-  background-color: #BF4904
-}
-
-#color3 {
-  grid-area: color3;
-  background-color: #D96704
-}
-
-#color4 {
-  grid-area: color4;
-  background-color: #43D9CA
-}
-
-#color5 {
-  grid-area: color5;
-  background-color: #0D0D0D
-}
+.color:nth-of-type(1) {grid-area: color1}
+.color:nth-of-type(2) {grid-area: color2}
+.color:nth-of-type(3) {grid-area: color3}
+.color:nth-of-type(4) {grid-area: color4}
+.color:nth-of-type(5) {grid-area: color5}
 
 .hex-display {
   background-color: whitesmoke;
