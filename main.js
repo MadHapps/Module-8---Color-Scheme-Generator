@@ -1,40 +1,49 @@
 import './style.css'
 
-// Set random color on page load
-document.getElementById('color-picker').value = randomHexColorCode()
-
-// Global variables
-const colorForm = document.getElementById('color-form')
-let formColor = document.getElementById('color-picker').value.replace('#', '')
+//Global Variables
+const colorPickerEl = document.getElementById('color-picker')
+const colorFormEl = document.getElementById('color-form')
+let formColor = colorPickerEl.value.replace('#', '')
 let formScheme = document.getElementById('color-schemes').value
 
+// Load saved color or generate random
+if (sessionStorage.getItem('currentColor')) {
+    colorPickerEl.value = sessionStorage.getItem('currentColor')
+} else colorPickerEl.value = randomHexColorCode();
+
 // Update color after form submit
-colorForm.addEventListener('submit', (e) => {
-    e.preventDefault()
-    formColor = document.getElementById('color-picker').value.replace('#', '')
-    formScheme = document.getElementById('color-schemes').value
-    const formData = {
-        color: formColor,
-        scheme: formScheme
-    }
-    displayColors(formData.color, formData.scheme)
-    
+['change', 'submit', 'DOMContentLoaded'].forEach(event => {
+    window.addEventListener(event, (e) => {
+        e.preventDefault()
+        formScheme = document.getElementById('color-schemes').value
+        if (event === 'submit') {
+            const randomColor = randomHexColorCode()
+            sessionStorage.setItem('currentColor', randomColor)
+            colorPickerEl.value = randomColor
+            formColor = colorPickerEl.value.replace('#', '')
+            displayColors(formColor, formScheme)
+        } else {
+            const currentColor = colorPickerEl.value
+            sessionStorage.setItem('currentColor', currentColor)
+            formColor = currentColor.replace('#', '')
+            displayColors(formColor, formScheme)
+        } 
+    })
 })
 
 // Fetch colors from API
 function displayColors(color, scheme = 'monochrome') {
     fetch(`https://www.thecolorapi.com/scheme?mode=${scheme}&hex=${color}`, { method: "GET" })
-    .then(res => res.json())
-    .then(data => {
-        const dataColors = data.colors.map(color => color.hex.value)
-        const displayColors = document.querySelectorAll("[data-display-colors]")
-        const displayText = document.querySelectorAll("[data-display-text]")
-        displayColors.forEach((display, index) => {
-            display.style.backgroundColor = dataColors[index]
-            displayText[index].textContent = dataColors[index]
-
+        .then(res => res.json())
+        .then(data => {
+            const dataColors = data.colors.map(color => color.hex.value)
+            const displayColors = document.querySelectorAll("[data-display-colors]")
+            const displayText = document.querySelectorAll("[data-display-text]")
+            displayColors.forEach((display, index) => {
+                display.style.backgroundColor = dataColors[index]
+                displayText[index].textContent = dataColors[index]
+            })
         })
-    })
 }
 
 //Generate random color
@@ -60,7 +69,6 @@ const debounce = (fn, delay) => {
 window.addEventListener('resize', debounce(() => {
     vh = window.innerHeight * 0.01
     document.documentElement.style.setProperty('--vh', `${vh}px`)
-    console.log('iv been called')
 }, 50)
 )
 

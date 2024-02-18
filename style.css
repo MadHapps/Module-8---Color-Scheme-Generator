@@ -33,7 +33,7 @@ body {
   height: 100vh;
   height: calc(var(--vh, 1vh) * 100); /*make height auto adjust, used for mobile browsers*/
   margin-inline: auto;
-  padding: 0 6.3px 6.3px;
+  padding: 0 5px 5px;
   transition: 300ms;
 }
 
@@ -58,7 +58,20 @@ header {
   align-items: center;
   justify-content: end;
   background-color: lightgray;
+  transition: .3s ease;
   padding: 4px;
+}
+
+.color:hover {
+  width: 99%;
+  margin: 0 auto;
+  box-shadow: #484848 0 0 5px 1px;
+  transition: .3s ease;
+}
+
+.color:hover .hex-display{
+  padding-block: clamp(1.5em, 3vh, 3em);
+  transition: .3s ease;
 }
 
 .color:nth-of-type(1) {grid-area: color1}
@@ -73,6 +86,7 @@ header {
   text-align: center;
   padding: clamp(.15em, 2vh, .75em);
   border-radius: 4.6px;
+  transition:.2s ease;
 }
 
 section {
@@ -112,5 +126,15 @@ section:last-of-type>.hex-display {
     width: fit-content;
     align-self: end;
     border-radius: 4.6px !important;
+  }
+
+  .color:hover {
+    margin: auto 0;
+    height: 98%;
+    box-shadow: #484848 0 0 5px 1px;
+  }
+
+  .color:hover .hex-display {
+    padding: clamp(.5em, 2vh, 1em);
   }
 }
