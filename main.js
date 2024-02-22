@@ -49,7 +49,6 @@ window.addEventListener("click", (e) => {
   }
 
   navigator.clipboard.writeText(colorValue)
-  alert(`Copied ${colorValue}`)
 
 });
 
