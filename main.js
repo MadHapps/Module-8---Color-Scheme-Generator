@@ -1,78 +1,104 @@
-import './style.css'
+import "./style.css";
 
 //Global Variables
-const colorPickerEl = document.getElementById('color-picker')
-const colorFormEl = document.getElementById('color-form')
-let formColor = colorPickerEl.value.replace('#', '')
-let formScheme = document.getElementById('color-schemes').value
-
-// Load saved color or generate random
-if (sessionStorage.getItem('currentColor')) {
-    colorPickerEl.value = sessionStorage.getItem('currentColor')
-} else colorPickerEl.value = randomHexColorCode();
+const colorPickerEl = document.getElementById("color-picker");
+const colorFormEl = document.getElementById("color-form");
+let formColor = colorPickerEl.value.replace("#", "");
+let formScheme = document.getElementById("color-schemes").value;
 
 // Update color after form submit
-['change', 'submit', 'DOMContentLoaded'].forEach(event => {
-    window.addEventListener(event, (e) => {
-        e.preventDefault()
-        formScheme = document.getElementById('color-schemes').value
-        if (event === 'submit') {
-            const randomColor = randomHexColorCode()
-            sessionStorage.setItem('currentColor', randomColor)
-            colorPickerEl.value = randomColor
-            formColor = colorPickerEl.value.replace('#', '')
-            displayColors(formColor, formScheme)
-        } else {
-            const currentColor = colorPickerEl.value
-            sessionStorage.setItem('currentColor', currentColor)
-            formColor = currentColor.replace('#', '')
-            displayColors(formColor, formScheme)
-        } 
-    })
-})
+["change", "submit", "DOMContentLoaded"].forEach((event) => {
+  window.addEventListener(event, (e) => {
+    e.preventDefault();
+    console.log(e.target);
+    formScheme = document.getElementById("color-schemes").value;
+    // Load saved color or generate random
+    if (
+      sessionStorage.getItem("currentColor") &&
+      event === "DOMContentLoaded"
+    ) {
+      colorPickerEl.value = sessionStorage.getItem("currentColor");
+    } else if (event === "DOMContentLoaded")
+      colorPickerEl.value = randomHexColorCode();
+
+    if (event === "submit") {
+      const randomColor = randomHexColorCode();
+      sessionStorage.setItem("currentColor", randomColor);
+      colorPickerEl.value = randomColor;
+      formColor = colorPickerEl.value.replace("#", "");
+      displayColors(formColor, formScheme);
+    } else {
+      const currentColor = colorPickerEl.value;
+      sessionStorage.setItem("currentColor", currentColor);
+      formColor = currentColor.replace("#", "");
+      displayColors(formColor, formScheme);
+    }
+  });
+});
+
+// Copy selection to clipboard
+window.addEventListener("click", (e) => {
+  let colorValue = "#FFFFFF";
+  if (e.target.getAttribute("data-display-colors")) {
+    const selectedColorEl = e.target.getAttribute("data-display-colors");
+    colorValue = document.querySelector(
+      `[data-display-text="${selectedColorEl}"]`
+    ).textContent;
+  } else if (e.target.getAttribute("data-display-text")) {
+    colorValue = e.target.textContent
+  }
+
+  navigator.clipboard.writeText(colorValue)
+  alert(`Copied ${colorValue}`)
+
+});
 
 // Fetch colors from API
-function displayColors(color, scheme = 'monochrome') {
-    fetch(`https://www.thecolorapi.com/scheme?mode=${scheme}&hex=${color}`, { method: "GET" })
-        .then(res => res.json())
-        .then(data => {
-            const dataColors = data.colors.map(color => color.hex.value)
-            const displayColors = document.querySelectorAll("[data-display-colors]")
-            const displayText = document.querySelectorAll("[data-display-text]")
-            displayColors.forEach((display, index) => {
-                display.style.backgroundColor = dataColors[index]
-                displayText[index].textContent = dataColors[index]
-            })
-        })
+function displayColors(color, scheme = "monochrome") {
+  fetch(`https://www.thecolorapi.com/scheme?mode=${scheme}&hex=${color}`, {
+    method: "GET",
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      const dataColors = data.colors.map((color) => color.hex.value);
+      const displayColors = document.querySelectorAll("[data-display-colors]");
+      const displayText = document.querySelectorAll("[data-display-text]");
+      displayColors.forEach((display, index) => {
+        display.style.backgroundColor = dataColors[index];
+        displayText[index].textContent = dataColors[index];
+      });
+    });
 }
 
 //Generate random color
 function randomHexColorCode() {
-    let n = (Math.random() * 0xfffff * 1000000).toString(16)
-    return '#' + n.slice(0, 6)
+  let n = (Math.random() * 0xfffff * 1000000).toString(16);
+  return "#" + n.slice(0, 6);
 }
 
 // Responsive Height
-let vh = window.innerHeight * 0.01
-document.documentElement.style.setProperty('--vh', `${vh}px`)
+let vh = window.innerHeight * 0.01;
+document.documentElement.style.setProperty("--vh", `${vh}px`);
 
-const debounce = (fn, delay) => {
-    let id
-    return (...args) => {
-        if (id) clearTimeout(id)
-        id = setTimeout(() => {
-            fn(...args)
-        }, delay)
-    }
+function debounce(fn, delay) {
+  let id;
+  return (...args) => {
+    if (id) clearTimeout(id);
+    id = setTimeout(() => {
+      fn(...args);
+    }, delay);
+  };
 }
 
-window.addEventListener('resize', debounce(() => {
-    vh = window.innerHeight * 0.01
-    document.documentElement.style.setProperty('--vh', `${vh}px`)
-}, 50)
-)
+window.addEventListener(
+  "resize",
+  debounce(() => {
+    vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty("--vh", `${vh}px`);
+  }, 50)
+);
 
-displayColors(formColor, formScheme)
+displayColors(formColor, formScheme);
 
 //DIFFERENT DEBOUNCE METHODS//////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////
@@ -88,7 +114,6 @@ displayColors(formColor, formScheme)
 //     }, 2000)
 // })
 //////////////////////////////////////////////////////////////////////////
-
 
 //////////////////////////////////////////////////////////////////////////
 // TEST USING THROTTLE ///////////////////////////////////////////////////
